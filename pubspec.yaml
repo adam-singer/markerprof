@@ -1,0 +1,6 @@
+name: markerprof
+description: User Marker Profiling Library
+version: 0.0.1
+dependencies:
+  unittest:
+    sdk: unittest
