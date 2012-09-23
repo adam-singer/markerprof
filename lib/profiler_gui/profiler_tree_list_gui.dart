@@ -104,6 +104,13 @@ class ProfilerTreeTableGUI {
   
   static TableElement buildTree(ProfilerTree tree, int frequency) {
     var root = new TableElement();
+    TableRowElement header = new TableRowElement();
+    header.nodes.add(makeCell('Marker Name', 0));
+    header.nodes.add(makeCell('Inclusive Time', 0));
+    header.nodes.add(makeCell('Inclusive Percentage', 0));
+    header.nodes.add(makeCell('Exclusive Time', 0));
+    header.nodes.add(makeCell('Exclusive Percentage', 0));
+    root.nodes.add(header);
     _buildNode(tree.root, 0, tree.root.inclusiveTicks, frequency, root);
     return root;
   }
