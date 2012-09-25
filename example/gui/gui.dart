@@ -5,7 +5,7 @@
 ProfilerTree profilerTree;
 num rotatePos = 0;
 int frameCount = 0;
-int frameCountToReset = 10;
+int frameCountToReset = 20;
 
 int fib(int n) {
   if (n <= 1) {
@@ -17,7 +17,7 @@ int fib(int n) {
 bool animate(int time) {
   frameCount++;
   Profiler.enter('animate');
-  
+
   {
     Profiler.enter('text animation update');
     var textElement = query("#text");
@@ -25,7 +25,7 @@ bool animate(int time) {
     rotatePos++;
     Profiler.exit();
   }
-  
+
   {
     Profiler.enter('Work update');
     Profiler.enter('fib(4)');
@@ -36,28 +36,37 @@ bool animate(int time) {
     Profiler.exit();
     Profiler.exit();
   }
-  
+
+  {
+    Profiler.enter('A');
+    Profiler.enter('B');
+    Profiler.enter('C');
+    Profiler.enter('D');
+    Profiler.enter('E');
+    Profiler.exit();
+    Profiler.exit();
+    Profiler.exit();
+    Profiler.exit();
+    Profiler.exit();
+  }
+
   window.requestAnimationFrame(animate);
   Profiler.exit();
-  
-  // Process the profiler events every frame 
+
+  // Process the profiler events every frame
   profilerTree.processEvents(Profiler.events);
   // Clear them for next frame
   Profiler.clear();
-  
+
   // Every frameCountToReset we rebuild the GUI
   if (frameCount > frameCountToReset) {
     frameCount = 0;
-    var guiTree = ProfilerTreeTableGUI.buildTree(profilerTree, Profiler.frequency);
-    //var guiTree = ProfilerTreeListGUI.buildTree(profilerTree, Profiler.frequency);
-    var div = document.query('#profiler');
-    div.nodes.clear();
-    div.nodes.add(guiTree);
-    
+    var tbody = document.query('#profilerTable');
+    ProfilerTreeTableGUI.fillTable(profilerTree, Profiler.frequency, tbody);
     // We reset the tree statistics for next build
     profilerTree.resetStatistics();
   }
-  
+
 }
 
 void main() {

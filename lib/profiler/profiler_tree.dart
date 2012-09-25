@@ -27,14 +27,14 @@ class ProfilerTreeNode {
   int enterCount;
   int inclusiveTicks;
   int exclusiveTicks;
-  
+
   ProfilerTreeNode(this.parent, this.name) {
     this.enterCount = 0;
     this.inclusiveTicks = 0;
     this.exclusiveTicks = 0;
     children = new List<ProfilerTreeNode>();
   }
-  
+
   ProfilerTreeNode findChild(String childName) {
     for (ProfilerTreeNode child in children) {
       if (child.name == childName) {
@@ -43,7 +43,7 @@ class ProfilerTreeNode {
     }
     return null;
   }
-  
+
   ProfilerTreeNode findOrAddChild(String childName) {
     ProfilerTreeNode child = findChild(childName);
     if (child != null) {
@@ -53,7 +53,7 @@ class ProfilerTreeNode {
     children.add(child);
     return child;
   }
-  
+
   void resetStatistics() {
     enterCount = 0;
     inclusiveTicks = 0;
@@ -72,51 +72,62 @@ class ProfilerTree {
     _firstTime = 0;
     _lastTime = 0;
   }
-  
+
   int get firstTime() => _firstTime;
   int get lastTime() => _lastTime;
-  
+
   ProfilerTreeNode root;
-  
+
   void clear() {
     root.children.clear();
   }
-  
+
   void resetStatistics() {
     _firstTime = 0;
     _lastTime = 0;
     root.resetStatistics();
   }
-  
-  int _processEvent(Queue<ProfilerEvent> events, ProfilerTreeNode node, int enterTime) {
+
+  int _processEvent(Queue<ProfilerEvent> events,
+                    ProfilerTreeNode parent, int enterTime) {
     int timeInChild = 0;
     while (events.length > 0) {
       ProfilerEvent event = events.first();
       events.removeFirst();
+
+      // Keep track of global timestamps
       if (_firstTime == 0) {
         _firstTime = event.now;
       }
       if (event.now > _lastTime) {
         _lastTime = event.now;
       }
-      if (event.event == ProfilerEvent.Exit) {
-        int totalTime = event.now - enterTime;
-        node.inclusiveTicks += totalTime;
-        node.exclusiveTicks += totalTime - timeInChild;
-        return event.now;
-      }
-      
+
+      // Push
       if (event.event == ProfilerEvent.Enter) {
-        ProfilerTreeNode childNode = node.findOrAddChild(event.name);
+        ProfilerTreeNode childNode = parent.findOrAddChild(event.name);
         childNode.enterCount++;
         int childExitTime = _processEvent(events, childNode, event.now);
+        assert(childExitTime >= event.now);
         timeInChild += childExitTime - event.now;
       }
+
+      // Pop
+      if (event.event == ProfilerEvent.Exit) {
+        assert(enterTime != 0);
+        int totalTime = event.now - enterTime;
+        parent.inclusiveTicks += totalTime;
+        parent.exclusiveTicks += totalTime - timeInChild;
+        return event.now;
+      }
     }
-    // Never got an exit time...
+    if (enterTime != 0) {
+      print('Warning ran out of events inside node ${parent.name}');
+      print('Look for unmatched enter and exit pairs.');
+    }
     return enterTime;
   }
-  
+
   void processEvents(Queue<ProfilerEvent> events) {
     _processEvent(events, root, 0);
     int totalTime = _lastTime - _firstTime;
@@ -127,7 +138,7 @@ class ProfilerTree {
     }
     root.exclusiveTicks += totalTime - timeInChild;
   }
-  
+
   void processRemoteEvents(List remoteEvents) {
     print('processing remote events');
     Queue<ProfilerEvent> events = new Queue<ProfilerEvent>();

@@ -33,3 +33,11 @@ p {
   text-align: center;
   margin-top: 140px;
 }
+
+td:first-child
+{
+	width:100%;
+}
+
+tr:nth-child(even) {background: #CCC}
+tr:nth-child(odd) {background: #FFF}
