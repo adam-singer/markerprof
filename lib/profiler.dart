@@ -22,5 +22,5 @@
 
 #library('profiler');
 #import('dart:json');
-#source('profiler/profiler.dart');
-#source('profiler/profiler_tree.dart');
+#source('src/profiler/profiler.dart');
+#source('src/profiler/profiler_tree.dart');

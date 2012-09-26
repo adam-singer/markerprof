@@ -23,5 +23,5 @@
 #library('profilergui');
 #import('dart:html');
 #import('profiler.dart');
-#source('profiler_gui/profiler_tree_list_gui.dart');
+#source('src/profiler_gui/profiler_tree_list_gui.dart');
 
