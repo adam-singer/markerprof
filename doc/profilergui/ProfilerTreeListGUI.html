@@ -1,0 +1,111 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>ProfilerTreeListGUI Class / profilergui Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="profilergui" data-type="ProfilerTreeListGUI">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../profilergui.html">profilergui</a> &rsaquo; <a href="../profilergui/ProfilerTreeListGUI.html">ProfilerTreeListGUI</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+<h2><div class="icon-library"></div><a href="../profiler.html">profiler</a></h2><h2><div class="icon-library"></div><a href="../profilergui.html">profilergui</a></h2><ul class="icon">
+<li><div class="icon-class"></div><strong>ProfilerTreeListGUI</strong></li>
+<li><a href="../profilergui/ProfilerTreeTableGUI.html"><div class="icon-class"></div>ProfilerTreeTableGUI</a></li>
+</ul>
+<h2><div class="icon-library"></div><a href="../profiler_client.html">profiler_client</a></h2><h2><div class="icon-library"></div><a href="../profiler_server.html">profiler_server</a></h2></div>
+<div class="content">
+        <h2><strong>ProfilerTreeListGUI</strong>
+          Class
+        </h2>
+        
+<div class="doc">
+
+</div>
+<h3>Static Methods</h3>
+<div class="method"><h4 id="buildNode">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_html/UListElement.html">UListElement</a> <strong>buildNode</strong>(<a href="../profiler/ProfilerTreeNode.html">ProfilerTreeNode</a> node, <a href="http://api.dartlang.org/dart_core/int.html">int</a> totalTicks, <a href="http://api.dartlang.org/dart_core/int.html">int</a> frequency) <a class="anchor-link" href="#buildNode"
+              title="Permalink to ProfilerTreeListGUI.buildNode">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+static UListElement buildNode(ProfilerTreeNode node, int totalTicks, int frequency) {
+  UListElement list = new UListElement();
+  for (ProfilerTreeNode child in node.children) {
+    if (child.enterCount == 0) {
+      continue;
+    }
+    LIElement item = new LIElement();
+    ParagraphElement p = new ParagraphElement();
+    {
+      int microsecondFrequency = frequency ~/ 1000000;
+      // average across call counts
+      int inclusiveTime = child.inclusiveTicks~/child.enterCount;
+      int exclusiveTime = child.exclusiveTicks~/child.enterCount;
+      // determine microseconds
+      inclusiveTime ~/= microsecondFrequency;
+      exclusiveTime ~/= microsecondFrequency;
+      int inclusivePercent = (child.inclusiveTicks * 100) ~/ node.inclusiveTicks;
+      int exclusivePercent = (child.exclusiveTicks * 100) ~/ totalTicks;
+      p.innerHTML = '${child.name} I: ${inclusiveTime} µs ${inclusivePercent} % E: ${exclusiveTime} µs ${exclusivePercent} %';
+    }
+    item.nodes.add(p);
+    if (child.children.length &gt; 0) {
+      item.nodes.add(buildNode(child, totalTicks, frequency));
+    }
+    list.nodes.add(item);
+  }
+  return list;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="buildTree">
+<span class="show-code">Code</span>
+<a href="http://api.dartlang.org/dart_html/UListElement.html">UListElement</a> <strong>buildTree</strong>(<a href="../profiler/ProfilerTree.html">ProfilerTree</a> tree, <a href="http://api.dartlang.org/dart_core/int.html">int</a> frequency) <a class="anchor-link" href="#buildTree"
+              title="Permalink to ProfilerTreeListGUI.buildTree">#</a></h4>
+<div class="doc">
+
+<pre class="source">
+static UListElement buildTree(ProfilerTree tree, int frequency) {
+  UListElement root = new UListElement();
+  LIElement item = new LIElement();
+  ParagraphElement p = new ParagraphElement();
+  p.innerHTML = '&lt;p&gt;Root&lt;/p&gt;';
+  item.nodes.add(p);
+  Element r = buildNode(tree.root, tree.root.inclusiveTicks, frequency);
+  if (r != null) {
+    item.nodes.add(r);
+  }
+  root.nodes.add(item);
+  return root;
+}
+</pre>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          <div>This page was generated at 2012-09-25 21:30:46.716</div>
+        </div>
+        <script async src="../client-static.js"></script>
+        </body></html>
+        

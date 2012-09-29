@@ -37,3 +37,6 @@ Profiler.enter('Scope Name');
 Profiler.exit();
 
 ```
+
+## Documentation ##
+dartdoc generated documentation on Marker Profile classes can be found [here](doc)

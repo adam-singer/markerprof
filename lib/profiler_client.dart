@@ -23,4 +23,4 @@
 #library('profiler_client');
 #import('dart:html');
 #import('dart:json');
-#source('profiler_client/profiler_client.dart');
+#source('src/profiler_client/profiler_client.dart');
