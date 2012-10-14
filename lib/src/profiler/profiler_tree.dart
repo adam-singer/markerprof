@@ -114,7 +114,7 @@ class ProfilerTree {
 
       // Pop
       if (event.event == ProfilerEvent.Exit) {
-        assert(enterTime != 0);
+        //assert(enterTime != 0);
         int totalTime = event.now - enterTime;
         parent.inclusiveTicks += totalTime;
         parent.exclusiveTicks += totalTime - timeInChild;
