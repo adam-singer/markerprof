@@ -1,6 +1,6 @@
 #import('dart:html');
-#import('package:markerprof/profiler.dart');
-#import('package:markerprof/profiler_gui.dart');
+#import('package:marker_prof/profiler.dart');
+#import('package:marker_prof/profiler_gui.dart');
 
 ProfilerTree profilerTree;
 num rotatePos = 0;

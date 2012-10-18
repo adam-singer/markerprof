@@ -1,4 +1,4 @@
-#import('../lib/profiler_server.dart');
+#import('package:marker_prof/profiler_server.dart');
 
 class ProfServe {
   ProfilerServer server;
