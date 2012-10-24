@@ -34,21 +34,33 @@ class Profiler {
   static int get frequency => _watch.frequency();
   
   static enter(String name) {
+    if (_watch == null) {
+      return;
+    }
     ProfilerEvent event = new ProfilerEvent(ProfilerEvent.Enter, name, _watch.elapsed());
     events.add(event);
   }
   
   static exit() {
+    if (_watch == null) {
+      return;
+    }
     ProfilerEvent event = new ProfilerEvent(ProfilerEvent.Exit, null, _watch.elapsed());
     events.add(event);
   }
   
   static frameStart() {
+    if (_watch == null) {
+      return;
+    }
     ProfilerEvent event = new ProfilerEvent(ProfilerEvent.FrameStart, 'Frame $frameCounter', _watch.elapsed());
     events.add(event);
   }
   
   static frameEnd() {
+    if (_watch == null) {
+      return;
+    }
     ProfilerEvent event = new ProfilerEvent(ProfilerEvent.FrameEnd, 'Frame $frameCounter', _watch.elapsed());
     events.add(event);
     frameCounter++;
