@@ -20,7 +20,7 @@
 
 */
 
-#library('profiler');
-#import('dart:json');
-#source('src/profiler/profiler.dart');
-#source('src/profiler/profiler_tree.dart');
+library profiler;
+import 'dart:json';
+part 'src/profiler/profiler.dart';
+part 'src/profiler/profiler_tree.dart';

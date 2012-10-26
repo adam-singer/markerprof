@@ -37,7 +37,6 @@ class _ProfilerClient implements Hashable {
     name = 'Unnamed';
     type = TypeUninitialized;
     connection.onClosed = _onClosed;
-    connection.onError = _onError;
     connection.onMessage = _onMessage;
   }
   
@@ -50,11 +49,6 @@ class _ProfilerClient implements Hashable {
   
   void _onClosed(int status, String reason) {
     print('closed $name');
-    server._clientClose(this);
-  }
-  
-  void _onError(e) {
-    print('error $name - $e');
     server._clientClose(this);
   }
   

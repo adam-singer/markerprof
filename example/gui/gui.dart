@@ -14,7 +14,7 @@ int fib(int n) {
   return fib(n-1) + fib(n-2);
 }
 
-bool animate(int time) {
+void animate(int time) {
   frameCount++;
   Profiler.enter('animate');
 
