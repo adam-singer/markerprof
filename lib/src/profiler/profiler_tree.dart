@@ -73,8 +73,8 @@ class ProfilerTree {
     _lastTime = 0;
   }
 
-  int get firstTime() => _firstTime;
-  int get lastTime() => _lastTime;
+  int get firstTime => _firstTime;
+  int get lastTime => _lastTime;
 
   ProfilerTreeNode root;
 
@@ -92,7 +92,7 @@ class ProfilerTree {
                     ProfilerTreeNode parent, int enterTime) {
     int timeInChild = 0;
     while (events.length > 0) {
-      ProfilerEvent event = events.first();
+      ProfilerEvent event = events.first;
       events.removeFirst();
 
       // Keep track of global timestamps
