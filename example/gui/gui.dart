@@ -1,6 +1,6 @@
-#import('dart:html');
-#import('package:marker_prof/profiler.dart');
-#import('package:marker_prof/profiler_gui.dart');
+import 'dart:html';
+import 'package:marker_prof/profiler.dart';
+import 'package:marker_prof/profiler_gui.dart';
 
 ProfilerTree profilerTree;
 num rotatePos = 0;
@@ -14,7 +14,7 @@ int fib(int n) {
   return fib(n-1) + fib(n-2);
 }
 
-void animate(int time) {
+void animate(num time) {
   frameCount++;
   Profiler.enter('animate');
 

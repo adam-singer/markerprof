@@ -73,8 +73,8 @@ class ProfilerTree {
     _lastTime = 0;
   }
 
-  int get firstTime() => _firstTime;
-  int get lastTime() => _lastTime;
+  int get firstTime => _firstTime;
+  int get lastTime => _lastTime;
 
   ProfilerTreeNode root;
 

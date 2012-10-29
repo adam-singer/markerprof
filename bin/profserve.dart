@@ -1,12 +1,12 @@
-#import('package:marker_prof/profiler_server.dart');
+import 'package:marker_prof/profiler_server.dart';
 
 class ProfServe {
   ProfilerServer server;
-  
+
   ProfServe() {
     server = new ProfilerServer();
   }
-  
+
   void run(String hostname, int port) {
     server.listen(hostname, port);
   }

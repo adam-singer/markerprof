@@ -30,7 +30,7 @@ class _ProfilerClient implements Hashable {
   String name;
   WebSocketConnection connection;
 
-  int get hashCode() => connection.hashCode;
+  int get hashCode => connection.hashCode;
   bool equals(_ProfilerClient b) => connection == b.connection;
 
   _ProfilerClient(this.connection, this.server) {
