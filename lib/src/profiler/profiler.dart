@@ -6,9 +6,9 @@ class ProfilerEvent {
   int event;
   String name;
   int now;
-  
+
   ProfilerEvent(this.event, this.name, this.now);
-  
+
   Map serialize() {
     var response = {
                     'event':event,
@@ -27,45 +27,45 @@ class Profiler {
     events = new Queue<ProfilerEvent>();
     frameCounter = 0;
   }
-  
+
   static int frameCounter;
   static Queue<ProfilerEvent> events;
-  
-  static int get frequency => _watch.frequency();
-  
+
+  static int get frequency => _watch.frequency;
+
   static enter(String name) {
     if (_watch == null) {
       return;
     }
-    ProfilerEvent event = new ProfilerEvent(ProfilerEvent.Enter, name, _watch.elapsed());
+    ProfilerEvent event = new ProfilerEvent(ProfilerEvent.Enter, name, _watch.elapsedTicks);
     events.add(event);
   }
-  
+
   static exit() {
     if (_watch == null) {
       return;
     }
-    ProfilerEvent event = new ProfilerEvent(ProfilerEvent.Exit, null, _watch.elapsed());
+    ProfilerEvent event = new ProfilerEvent(ProfilerEvent.Exit, null, _watch.elapsedTicks);
     events.add(event);
   }
-  
+
   static frameStart() {
     if (_watch == null) {
       return;
     }
-    ProfilerEvent event = new ProfilerEvent(ProfilerEvent.FrameStart, 'Frame $frameCounter', _watch.elapsed());
+    ProfilerEvent event = new ProfilerEvent(ProfilerEvent.FrameStart, 'Frame $frameCounter', _watch.elapsedTicks);
     events.add(event);
   }
-  
+
   static frameEnd() {
     if (_watch == null) {
       return;
     }
-    ProfilerEvent event = new ProfilerEvent(ProfilerEvent.FrameEnd, 'Frame $frameCounter', _watch.elapsed());
+    ProfilerEvent event = new ProfilerEvent(ProfilerEvent.FrameEnd, 'Frame $frameCounter', _watch.elapsedTicks);
     events.add(event);
     frameCounter++;
   }
-  
+
   static List makeCapture() {
     List<Map> capture = new List<Map>();
     for (ProfilerEvent pe in events) {
@@ -73,7 +73,7 @@ class Profiler {
     }
     return capture;
   }
-  
+
   static clear() {
     events.clear();
   }
