@@ -140,7 +140,6 @@ class ProfilerTree {
   }
 
   void processRemoteEvents(List remoteEvents) {
-    print('processing remote events');
     Queue<ProfilerEvent> events = new Queue<ProfilerEvent>();
     for (Map remoteEvent in remoteEvents) {
       ProfilerEvent event = new ProfilerEvent(remoteEvent['event'], remoteEvent['name'], remoteEvent['now']);
