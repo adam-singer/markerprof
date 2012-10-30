@@ -4,8 +4,6 @@ import 'package:marker_prof/profiler_client.dart';
 
 ProfilerClient profilerClient;
 num rotatePos = 0;
-int frameCount = 0;
-int frameCountToReset = 20;
 
 // Increase the numbers to increase the calculation time
 // Maximum is around 32
@@ -20,7 +18,6 @@ int fib(int n) {
 }
 
 void animate(num time) {
-  frameCount++;
   Profiler.enter('animate');
 
   {
