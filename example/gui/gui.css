@@ -18,6 +18,7 @@ p {
   position: relative;
   border: 1px solid #ccc;
   background-color: #fff;
+  display: table;
 }
 
 #profiler {
@@ -31,7 +32,11 @@ p {
 #text {
   font-size: 24pt;
   text-align: center;
-  margin-top: 140px;
+  display: table-cell;
+  vertical-align: middle;
+
+  transform-origin: center center 0;
+  -webkit-transform-origin:: center center 0;
 }
 
 td:first-child
