@@ -7,6 +7,11 @@ num rotatePos = 0;
 int frameCount = 0;
 int frameCountToReset = 20;
 
+// Increase the numbers to increase the calculation time
+// Maximum is around 32
+int fibOne = 24;
+int fibTwo = 32;
+
 int fib(int n) {
   if (n <= 1) {
     return 1;
@@ -28,11 +33,11 @@ void animate(num time) {
 
   {
     Profiler.enter('Work update');
-    Profiler.enter('fib(4)');
-    fib(4);
+    Profiler.enter('fib(${fibOne})');
+    fib(fibOne);
     Profiler.exit();
-    Profiler.enter('fib(8)');
-    fib(8);
+    Profiler.enter('fib(${fibTwo})');
+    fib(fibTwo);
     Profiler.exit();
     Profiler.exit();
   }

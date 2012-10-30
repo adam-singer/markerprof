@@ -49,7 +49,6 @@ class ProfilerClient {
   }
 
   void _onMessage(messageEvent) {
-    //print('Got ${messageEvent.data}');
     Map message = JSON.parse(messageEvent.data);
     String command = message['command'];
     if (command == 'identify') {
@@ -75,9 +74,20 @@ class ProfilerClient {
     }
   }
 
+  void _onError(_) {
+    print('Could not connect');
+  }
+
+  void _onOpen(_) {
+    print('Connection opened');
+  }
+
   void connect(String url) {
     socket = new WebSocket(url);
+    socket.on.open.add(_onOpen);
     socket.on.message.add(_onMessage);
+    socket.on.error.add(_onError);
+    socket.on.close.add(_onError);
   }
 
   void startCapture(String target) {

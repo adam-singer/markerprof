@@ -10,18 +10,19 @@ int frameCount = 0;
 int frameCountToReset = 20;
 
 void onCapture(List events) {
-  print('event');
   frameCount++;
 
-  if (frameCount > frameCountToReset) {
-    profilerTree.processRemoteEvents(events);
+  profilerTree.processRemoteEvents(events);
+
+  if (frameCount >= frameCountToReset) {
     ProfilerTreeTableGUI.fillTable(profilerTree, Profiler.frequency, profilerTable);
     profilerTree.resetStatistics();
+    frameCount = 0;
   }
 }
 
 void onCaptureControl(int command, String requester) {
-  print('${command} from ${requester}');
+
 }
 
 void main() {

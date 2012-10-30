@@ -8,6 +8,11 @@ num rotatePos = 0;
 int frameCount = 0;
 int frameCountToReset = 20;
 
+// Increase the numbers to increase the calculation time
+// Maximum is around 32
+int fibOne = 4;
+int fibTwo = 8;
+
 int fib(int n) {
   if (n <= 1) {
     return 1;
@@ -29,11 +34,11 @@ void animate(num time) {
 
   {
     Profiler.enter('Work update');
-    Profiler.enter('fib(4)');
-    fib(4);
+    Profiler.enter('fib(${fibOne})');
+    fib(fibOne);
     Profiler.exit();
-    Profiler.enter('fib(8)');
-    fib(8);
+    Profiler.enter('fib(${fibTwo})');
+    fib(fibTwo);
     Profiler.exit();
     Profiler.exit();
   }
@@ -60,7 +65,7 @@ void animate(num time) {
   Profiler.clear();
 
   // Every frameCountToReset we rebuild the GUI
-  if (frameCount > frameCountToReset) {
+  if (frameCount >= frameCountToReset) {
     frameCount = 0;
     ProfilerTreeTableGUI.fillTable(profilerTree, Profiler.frequency, profilerTable);
     // We reset the tree statistics for next build

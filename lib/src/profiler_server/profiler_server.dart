@@ -34,10 +34,10 @@ class ProfilerServer {
   }
 
   void _connectionOpened(WebSocketConnection connection) {
-    print('got connection');
     _ProfilerClient client = new _ProfilerClient(connection, this);
     clients.add(client);
     client.identifyClient();
+    print('Connection receieved from ${client.name}');
   }
 
   void listen(String host, int port) {
@@ -58,7 +58,6 @@ class ProfilerServer {
   }
 
   void _dispatch(String name, Map message) {
-    print('Finding $name to send message to');
     _ProfilerClient client = findClientWithName(name);
     if (client == null) {
       return;
