@@ -70,7 +70,6 @@ class ProfilerClient {
       return;
     }
     if (command == 'deliverCapture') {
-      print('payload = ${messageEvent.data}');
       _onCapture(message['payload']);
       return;
     }
@@ -91,7 +90,6 @@ class ProfilerClient {
   }
 
   void stopCapture(String target) {
-    print('stopCapture $target');
     var response = {
                     'command':'stopCapture',
                     'target':target
@@ -100,7 +98,6 @@ class ProfilerClient {
   }
 
   void deliverCapture(String target, List capture) {
-    print('deliverCapture $target');
     var response = {
                     'command':'deliverCapture',
                     'target':target,
