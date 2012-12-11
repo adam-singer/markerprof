@@ -1,8 +1,8 @@
 name: markerprof
 description: User Marker Profiling Library
-version: 0.0.1
+version: 0.0.2
 author: John McCutchan <john@johnmccutchan.com>
 homepage: https://github.com/johnmccutchan/markerprof
 dependencies:
   unittest:
-    sdk: unittest
+    sdk: any
