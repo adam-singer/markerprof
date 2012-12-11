@@ -24,40 +24,34 @@ class _ProfilerClient implements Hashable {
   static final int TypeUninitialized = 0x0;
   static final int TypeUserApplication = 0x1;
   static final int TypeProfilerApplication = 0x2;
-  
+
   ProfilerServer server;
   int type;
   String name;
   WebSocketConnection connection;
-  
-  int hashCode() => connection.hashCode();
+
+  int get hashCode => connection.hashCode;
   bool equals(_ProfilerClient b) => connection == b.connection;
-  
+
   _ProfilerClient(this.connection, this.server) {
     name = 'Unnamed';
     type = TypeUninitialized;
     connection.onClosed = _onClosed;
-    connection.onError = _onError;
     connection.onMessage = _onMessage;
   }
-  
+
   void identifyClient() {
     var request = {
                    'command': 'identify'
     };
     connection.send(JSON.stringify(request));
   }
-  
+
   void _onClosed(int status, String reason) {
     print('closed $name');
     server._clientClose(this);
   }
-  
-  void _onError(e) {
-    print('error $name - $e');
-    server._clientClose(this);
-  }
-  
+
   void _onMessage(String messageString) {
     //print('Got $messageString');
     Map message = JSON.parse(messageString);

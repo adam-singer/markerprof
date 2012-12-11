@@ -25,18 +25,15 @@ dependencies:
         git: https://github.com/johnmccutchan/markerprof.git
 ```
 
-and run **pub install** to install **markerprof** (including its dependencies).
+and run **pub install** to install **marker_prof** (including its dependencies).
 
 ## Example ##
 
 ```
-#import('package:markerprof/profiler.dart');
+#import('package:marker_prof/profiler.dart');
 
 Profiler.enter('Scope Name');
 // Code
 Profiler.exit();
 
 ```
-
-## Documentation ##
-dartdoc generated documentation on Marker Profile classes can be found [here](doc)

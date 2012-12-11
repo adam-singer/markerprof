@@ -20,7 +20,7 @@
 
 */
 
-#library('profiler_client');
-#import('dart:html');
-#import('dart:json');
-#source('src/profiler_client/profiler_client.dart');
+library profiler_client;
+import 'dart:html';
+import 'dart:json';
+part 'src/profiler_client/profiler_client.dart';

@@ -1,3 +1,24 @@
+/*
+
+  Copyright (C) 2012 John McCutchan <john@johnmccutchan.com>
+
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any damages
+  arising from the use of this software.
+
+  Permission is granted to anyone to use this software for any purpose,
+  including commercial applications, and to alter it and redistribute it
+  freely, subject to the following restrictions:
+
+  1. The origin of this software must not be misrepresented; you must not
+     claim that you wrote the original software. If you use this software
+     in a product, an acknowledgment in the product documentation would be
+     appreciated but is not required.
+  2. Altered source versions must be plainly marked as such, and must not be
+     misrepresented as being the original software.
+  3. This notice may not be removed or altered from any source distribution.
+
+*/
 
 typedef void CaptureCallback(List events);
 typedef void CaptureControlCallback(int command, String requester);
@@ -13,22 +34,21 @@ class ProfilerClient {
   CaptureCallback _onCapture;
   CaptureControlCallback _onCaptureControl;
   int _type;
-  
-  String get name() => _name;
-  
+
+  String get name => _name;
+
   ProfilerClient(this._name, this._onCapture, this._onCaptureControl, this._type) {
-    
+
   }
-  
-  bool get connected() {
+
+  bool get connected {
     if (socket == null) {
       return false;
     }
     return socket.readyState == WebSocket.OPEN;
   }
-  
+
   void _onMessage(messageEvent) {
-    //print('Got ${messageEvent.data}');
     Map message = JSON.parse(messageEvent.data);
     String command = message['command'];
     if (command == 'identify') {
@@ -49,17 +69,27 @@ class ProfilerClient {
       return;
     }
     if (command == 'deliverCapture') {
-      print('payload = ${messageEvent.data}');
       _onCapture(message['payload']);
       return;
     }
   }
-  
+
+  void _onError(_) {
+    print('Could not connect');
+  }
+
+  void _onOpen(_) {
+    print('Connection opened');
+  }
+
   void connect(String url) {
     socket = new WebSocket(url);
+    socket.on.open.add(_onOpen);
     socket.on.message.add(_onMessage);
+    socket.on.error.add(_onError);
+    socket.on.close.add(_onError);
   }
-  
+
   void startCapture(String target) {
     print('startCapture $target');
     var response = {
@@ -68,18 +98,16 @@ class ProfilerClient {
     };
     socket.send(JSON.stringify(response));
   }
-  
+
   void stopCapture(String target) {
-    print('stopCapture $target');
     var response = {
                     'command':'stopCapture',
                     'target':target
     };
     socket.send(JSON.stringify(response));
   }
-  
+
   void deliverCapture(String target, List capture) {
-    print('deliverCapture $target');
     var response = {
                     'command':'deliverCapture',
                     'target':target,

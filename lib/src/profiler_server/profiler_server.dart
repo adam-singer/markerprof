@@ -24,7 +24,7 @@ class ProfilerServer {
   HttpServer server;
   WebSocketHandler webSocketHandler;
   Set<_ProfilerClient> clients;
-  
+
   ProfilerServer() {
     server = new HttpServer();
     webSocketHandler = new WebSocketHandler();
@@ -32,18 +32,18 @@ class ProfilerServer {
     server.defaultRequestHandler = webSocketHandler.onRequest;
     clients = new Set<_ProfilerClient>();
   }
-  
+
   void _connectionOpened(WebSocketConnection connection) {
-    print('got connection');
     _ProfilerClient client = new _ProfilerClient(connection, this);
     clients.add(client);
     client.identifyClient();
+    print('Connection receieved from ${client.name}');
   }
-  
+
   void listen(String host, int port) {
     server.listen(host, port);
   }
-  
+
   _ProfilerClient findClientWithName(String name) {
     for (_ProfilerClient client in clients) {
       if (client.name == name) {
@@ -52,13 +52,12 @@ class ProfilerServer {
     }
     return null;
   }
-  
+
   void _clientClose(_ProfilerClient client) {
     clients.remove(client);
   }
-  
+
   void _dispatch(String name, Map message) {
-    print('Finding $name to send message to');
     _ProfilerClient client = findClientWithName(name);
     if (client == null) {
       return;

@@ -1,17 +1,14 @@
 import 'dart:html';
 import 'package:marker_prof/profiler.dart';
-import 'package:marker_prof/profiler_gui.dart';
+import 'package:marker_prof/profiler_client.dart';
 
-ProfilerTree profilerTree;
-TableSectionElement profilerTable;
+ProfilerClient profilerClient;
 num rotatePos = 0;
-int frameCount = 0;
-int frameCountToReset = 20;
 
 // Increase the numbers to increase the calculation time
 // Maximum is around 32
-int fibOne = 4;
-int fibTwo = 8;
+int fibOne = 24;
+int fibTwo = 32;
 
 int fib(int n) {
   if (n <= 1) {
@@ -21,7 +18,6 @@ int fib(int n) {
 }
 
 void animate(num time) {
-  frameCount++;
   Profiler.enter('animate');
 
   {
@@ -60,23 +56,33 @@ void animate(num time) {
   Profiler.exit();
 
   // Process the profiler events every frame
-  profilerTree.processEvents(Profiler.events);
+  if (profilerClient.connected) {
+    profilerClient.deliverCapture('Client', Profiler.makeCapture());
+  }
+
   // Clear them for next frame
   Profiler.clear();
+}
 
-  // Every frameCountToReset we rebuild the GUI
-  if (frameCount >= frameCountToReset) {
-    frameCount = 0;
-    ProfilerTreeTableGUI.fillTable(profilerTree, Profiler.frequency, profilerTable);
-    // We reset the tree statistics for next build
-    profilerTree.resetStatistics();
-  }
+void onCapture(List events) {
+
+}
+
+void onCaptureControl(int command, String requester) {
 
 }
 
 void main() {
   Profiler.init();
-  profilerTable = document.query('#profilerTable') as TableSectionElement;
-  profilerTree = new ProfilerTree();
+
+  profilerClient = new ProfilerClient(
+    'Server',
+    onCapture,
+    onCaptureControl,
+    ProfilerClient.TypeProfilerApplication
+  );
+
+  profilerClient.connect('ws://127.0.0.1:8087');
+
   window.requestAnimationFrame(animate);
 }

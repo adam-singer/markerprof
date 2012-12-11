@@ -73,8 +73,8 @@ class ProfilerTree {
     _lastTime = 0;
   }
 
-  int get firstTime() => _firstTime;
-  int get lastTime() => _lastTime;
+  int get firstTime => _firstTime;
+  int get lastTime => _lastTime;
 
   ProfilerTreeNode root;
 
@@ -92,7 +92,7 @@ class ProfilerTree {
                     ProfilerTreeNode parent, int enterTime) {
     int timeInChild = 0;
     while (events.length > 0) {
-      ProfilerEvent event = events.first();
+      ProfilerEvent event = events.first;
       events.removeFirst();
 
       // Keep track of global timestamps
@@ -114,7 +114,7 @@ class ProfilerTree {
 
       // Pop
       if (event.event == ProfilerEvent.Exit) {
-        assert(enterTime != 0);
+        //assert(enterTime != 0);
         int totalTime = event.now - enterTime;
         parent.inclusiveTicks += totalTime;
         parent.exclusiveTicks += totalTime - timeInChild;
@@ -140,7 +140,6 @@ class ProfilerTree {
   }
 
   void processRemoteEvents(List remoteEvents) {
-    print('processing remote events');
     Queue<ProfilerEvent> events = new Queue<ProfilerEvent>();
     for (Map remoteEvent in remoteEvents) {
       ProfilerEvent event = new ProfilerEvent(remoteEvent['event'], remoteEvent['name'], remoteEvent['now']);

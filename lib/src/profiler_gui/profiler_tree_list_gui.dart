@@ -21,9 +21,9 @@
 */
 
 class ProfilerTreeListGUI {
-  static UListElement buildNode(ProfilerTreeNode node, int totalTicks, int frequency) {
+  static UListElement buildNode(ProfilerTreeNode parent, int totalTicks, int frequency) {
     UListElement list = new UListElement();
-    for (ProfilerTreeNode child in node.children) {
+    for (ProfilerTreeNode child in parent.children) {
       if (child.enterCount == 0) {
         continue;
       }
@@ -37,8 +37,9 @@ class ProfilerTreeListGUI {
         // determine microseconds
         inclusiveTime ~/= microsecondFrequency;
         exclusiveTime ~/= microsecondFrequency;
-        int inclusivePercent = (child.inclusiveTicks * 100) ~/ node.inclusiveTicks;
-        int exclusivePercent = (child.exclusiveTicks * 100) ~/ totalTicks;
+        int parentInclusiveTicks = parent.inclusiveTicks;
+        int inclusivePercent = (parentInclusiveTicks != 0) ? (child.inclusiveTicks * 100) ~/ parentInclusiveTicks : 100;
+        int exclusivePercent = (totalTicks != 0) ? (child.exclusiveTicks * 100) ~/ totalTicks : 100;
         p.innerHTML = '${child.name} I: ${inclusiveTime} µs ${inclusivePercent} % E: ${exclusiveTime} µs ${exclusivePercent} %';
       }
       item.nodes.add(p);
@@ -85,8 +86,9 @@ class ProfilerTreeTableGUI {
         // determine microseconds
         inclusiveTime ~/= microsecondFrequency;
         exclusiveTime ~/= microsecondFrequency;
-        var inclusivePercent = (child.inclusiveTicks * 100) ~/ parent.inclusiveTicks;
-        var exclusivePercent = (child.exclusiveTicks * 100) ~/ totalTicks;
+        int parentInclusiveTicks = parent.inclusiveTicks;
+        int inclusivePercent = (parentInclusiveTicks != 0) ? (child.inclusiveTicks * 100) ~/ parentInclusiveTicks : 100;
+        int exclusivePercent = (totalTicks != 0) ? (child.exclusiveTicks * 100) ~/ totalTicks : 100;
         item.nodes.add(_makeCell(child.name, depth * 20));
         item.nodes.add(_makeCell('$inclusiveTime µs', 0));
         item.nodes.add(_makeCell('$inclusivePercent %', 0));
