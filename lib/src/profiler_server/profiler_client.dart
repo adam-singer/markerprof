@@ -19,6 +19,7 @@
   3. This notice may not be removed or altered from any source distribution.
 
 */
+part of profiler_server;
 
 class _ProfilerClient implements Hashable {
   static final int TypeUninitialized = 0x0;

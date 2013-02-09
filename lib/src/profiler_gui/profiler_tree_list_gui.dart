@@ -19,6 +19,7 @@
   3. This notice may not be removed or altered from any source distribution.
 
 */
+part of profiler_gui;
 
 class ProfilerTreeListGUI {
   static UListElement buildNode(ProfilerTreeNode parent, int totalTicks, int frequency) {
@@ -40,7 +41,7 @@ class ProfilerTreeListGUI {
         int parentInclusiveTicks = parent.inclusiveTicks;
         int inclusivePercent = (parentInclusiveTicks != 0) ? (child.inclusiveTicks * 100) ~/ parentInclusiveTicks : 100;
         int exclusivePercent = (totalTicks != 0) ? (child.exclusiveTicks * 100) ~/ totalTicks : 100;
-        p.innerHTML = '${child.name} I: ${inclusiveTime} µs ${inclusivePercent} % E: ${exclusiveTime} µs ${exclusivePercent} %';
+        p.innerHtml = '${child.name} I: ${inclusiveTime} µs ${inclusivePercent} % E: ${exclusiveTime} µs ${exclusivePercent} %';
       }
       item.nodes.add(p);
       if (child.children.length > 0) {
@@ -55,7 +56,7 @@ class ProfilerTreeListGUI {
     UListElement root = new UListElement();
     LIElement item = new LIElement();
     ParagraphElement p = new ParagraphElement();
-    p.innerHTML = '<p>Root</p>';
+    p.innerHtml = '<p>Root</p>';
     item.nodes.add(p);
     Element r = buildNode(tree.root, tree.root.inclusiveTicks, frequency);
     if (r != null) {
@@ -69,7 +70,7 @@ class ProfilerTreeListGUI {
 class ProfilerTreeTableGUI {
   static TableCellElement _makeCell(String text,int margin) {
     var e = new TableCellElement();
-    e.innerHTML = '<p style="margin-left: ${margin}px">$text</p>';
+    e.innerHtml = '<p style="margin-left: ${margin}px">$text</p>';
     return e;
   }
 

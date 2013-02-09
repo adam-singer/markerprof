@@ -22,6 +22,6 @@
 
 library profiler_server;
 import 'dart:io';
-import 'dart:json';
+import 'dart:json' as JSON;
 part 'src/profiler_server/profiler_server.dart';
 part 'src/profiler_server/profiler_client.dart';

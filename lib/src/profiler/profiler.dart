@@ -19,6 +19,7 @@
   3. This notice may not be removed or altered from any source distribution.
 
 */
+part of profiler;
 
 class ProfilerEvent {
   static const int Enter = 0x1;

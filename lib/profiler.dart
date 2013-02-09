@@ -21,6 +21,7 @@
 */
 
 library profiler;
-import 'dart:json';
+import 'dart:json' as JSON;
+import 'dart:collection';
 part 'src/profiler/profiler.dart';
 part 'src/profiler/profiler_tree.dart';

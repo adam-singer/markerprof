@@ -19,6 +19,7 @@
   3. This notice may not be removed or altered from any source distribution.
 
 */
+part of profiler_client;
 
 typedef void CaptureCallback(List events);
 typedef void CaptureControlCallback(int command, String requester);
@@ -84,10 +85,10 @@ class ProfilerClient {
 
   void connect(String url) {
     socket = new WebSocket(url);
-    socket.on.open.add(_onOpen);
-    socket.on.message.add(_onMessage);
-    socket.on.error.add(_onError);
-    socket.on.close.add(_onError);
+    socket.onOpen.listen(_onOpen);
+    socket.onMessage.listen(_onMessage);
+    socket.onError.listen(_onError);
+    socket.onClose.listen(_onError);
   }
 
   void startCapture(String target) {

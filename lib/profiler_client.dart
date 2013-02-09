@@ -22,5 +22,5 @@
 
 library profiler_client;
 import 'dart:html';
-import 'dart:json';
+import 'dart:json' as JSON;
 part 'src/profiler_client/profiler_client.dart';
