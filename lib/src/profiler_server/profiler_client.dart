@@ -21,7 +21,7 @@
 */
 part of profiler_server;
 
-class _ProfilerClient implements Hashable {
+class _ProfilerClient {
   static final int TypeUninitialized = 0x0;
   static final int TypeUserApplication = 0x1;
   static final int TypeProfilerApplication = 0x2;
@@ -30,9 +30,6 @@ class _ProfilerClient implements Hashable {
   int type;
   String name;
   WebSocketConnection connection;
-
-  int get hashCode => connection.hashCode;
-  bool equals(_ProfilerClient b) => connection == b.connection;
 
   _ProfilerClient(this.connection, this.server) {
     name = 'Unnamed';
